@@ -25,10 +25,141 @@ width: 100%;
 <body>
  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
+<!-- see https://developers.google.com/chart/interactive/docs/gallery/sankey for instructions and customisation -->
+
+<!-- Chart 0a -->
+
+ <h4>Chart 0a - both legs, no challenge flow split</h4>
+ <div id="sankey_0a" style="width: 1800px; height: 600px; padding: 20px 0px 100px 0px;"></div>
+
+ <script type="text/javascript">
+   google.charts.load("current", {packages:["sankey"]});
+   google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+     var data = new google.visualization.DataTable();
+     data.addColumn('string', 'From');
+     data.addColumn('string', 'To');
+     data.addColumn('number', 'Number of tx');
+     data.addRows([
+       [ 'Checkout', 'Route to Authorisation',	1000000 ],
+       [ 'Checkout', 'Route to Authentication',	1000000 ],
+       // Authorisation leg
+       [ 'Route to Authorisation', 'Accepted without 3DS',	380000 ],
+       [ 'Route to Authorisation', 'Soft Declined',	600000 ],
+       [ 'Route to Authorisation', 'Hard Declined',	20000 ],
+       [ 'Soft Declined', 'Start Authentication',	600000 ],
+       // [ 'Accepted without 3DS', 'Chargeback',	500 ],
+       //Authentication leg
+       [ 'Route to Authentication', 'Start Authentication',	1000000 ],
+       [ 'Start Authentication', 'Frictionless',	600000 ],
+       [ 'Start Authentication', 'Challenged',	1000000 ],
+       [ 'Frictionless', 'Failed authentication',	6000 ],
+       [ 'Frictionless', 'Route to Authorisation after 3DS', 594000 ],
+       [ 'Challenged', 'Failed authentication',	300000 ],
+       [ 'Challenged', 'Route to Authorisation after 3DS', 700000 ],
+       [ 'Route to Authorisation after 3DS', 'Hard Declined', 129400 ],
+       [ 'Route to Authorisation after 3DS', 'Accepted after 3DS', 1164600 ],
+      // [ 'Accepted', 'Chargeback', 835 ]
+     ]);
+
+     // Set chart options
+     var options = {
+       width: 1300,
+       sankey: {
+         iterations: 32,  // affects layout. Set to 0 to control it, 32 to defautl, over for more attempts to optmise
+         node: {
+           label: {
+               fontName: 'Avenir',
+               fontSize: 13,
+               color: '#000',
+               bold: false,
+               italic: false
+                 },
+           nodePadding: 80
+          },
+         link: { color: { stroke: 'd3d3d3', strokeWidth: 1 } }
+       },
+       tooltip:  {textStyle: {fontName: 'Avenir', fontSize: 13}, showColorCode: true}
+     };
+
+     // Instantiate and draw our chart, passing in some options.
+     var chart = new google.visualization.Sankey(document.getElementById('sankey_0a'));
+     chart.draw(data, options);
+    }
+ </script>
+
+
+<!-- Chart 0b -->
+
+ <h4>Chart 0b - both legs, no challenge flow split</h4>
+ <div id="sankey_0b" style="width: 1800px; height: 600px; padding: 20px 0px 100px 0px;"></div>
+
+ <script type="text/javascript">
+   google.charts.load("current", {packages:["sankey"]});
+   google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+     var data = new google.visualization.DataTable();
+     data.addColumn('string', 'From');
+     data.addColumn('string', 'To');
+     data.addColumn('number', 'Number of tx');
+     data.addRows([
+    //   [ 'Checkout', 'Route to Authorisation',	1000000 ],
+    //       [ 'Checkout', 'Route to Authentication',	1000000 ],
+    //       [ 'Route to Authorisation', 'Authorisation accepted',	500000 ],
+    //       [ 'Route to Authorisation', 'Soft Declined',	500000 ],
+    //       [ 'Route to Authentication', 'Start Authentication',	1000000 ],
+    //       [ 'Soft Declined', 'Start Authentication',	500000 ],
+    //       [ 'Start Authentication', 'Frictionless Authentication',	850000 ],
+    //       [ 'Start Authentication', 'Challenged Authentication',	150000 ],
+        [ 'Checkout', 'Route to Authorisation',	1000000 ],
+        [ 'Checkout', 'Route to Authentication',	1000000 ],
+       [ 'Route to Authorisation', 'Authorisation accepted',	500000 ],
+       [ 'Route to Authorisation', 'Soft Declined',	500000 ],
+       [ 'Soft Declined', 'Route to Authentication',	500000 ],
+       [ 'Route to Authentication', 'Frictionless Authentication',	850000 ],
+       [ 'Route to Authentication', 'Challenged Authentication',	150000 ],
+       [ 'Frictionless Authentication', 'Abandoned',	68000 ],
+       [ 'Frictionless Authentication', 'Authorisation after authentication', 782000 ],
+       [ 'Challenged Authentication', 'Abandoned',	22500 ],
+       [ 'Challenged Authentication', 'Authorisation after authentication', 127500 ],
+       [ 'Authorisation after authentication', 'Hard Declined', 86020 ],
+       [ 'Authorisation after authentication', 'Accepted', 695980 ],
+       [ 'Authorisation after authentication', 'Hard Declined', 11475 ],
+       [ 'Authorisation after authentication', 'Accepted', 116025 ],
+       [ 'Accepted', 'Chargeback with liability', 835 ],
+       [ 'Accepted', 'Chargeback liability shifted', 455 ]
+     ]);
+
+     // Set chart options
+     var options = {
+       width: 1200,
+       sankey: {
+         iterations: 200,  // affects layout. Set to 0 to control it, 32 to defautl, over for more attempts to optmise
+         node: {
+           label: {
+               fontName: 'Avenir',
+               fontSize: 13,
+               color: '#000',
+               bold: false,
+               italic: false
+                 },
+           nodePadding: 80
+          },
+         link: { color: { stroke: 'd3d3d3', strokeWidth: 1 } }
+       },
+       tooltip:  {textStyle: {fontName: 'Avenir', fontSize: 13}, showColorCode: true}
+     };
+
+     // Instantiate and draw our chart, passing in some options.
+     var chart = new google.visualization.Sankey(document.getElementById('sankey_0b'));
+     chart.draw(data, options);
+    }
+ </script>
+
+
+<!-- Chart 1 -->
 <h4>Chart 1 - single authorisation node and no challenge flow split</h4>
 <div id="sankey_multiple" style="width: 1800px; height: 600px; padding: 20px 0px 100px 0px;"></div>
-
-<!-- see https://developers.google.com/chart/interactive/docs/gallery/sankey for instructions and customisation -->
 
 <script type="text/javascript">
   google.charts.load("current", {packages:["sankey"]});
@@ -57,7 +188,7 @@ width: 100%;
     var options = {
       width: 1200,
       sankey: {
-        iterations: 200,  // affects layout. Set to 0 to control it, 32 to defautl, over for more attempts to optmise
+        iterations: 200,  // affects layout. Set to 0 to control it, 32 to default, over for more attempts to optmise
         node: {
           label: {
               fontName: 'Avenir',
