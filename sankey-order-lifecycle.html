@@ -1,0 +1,90 @@
+<html>
+<head>
+  <style type="text/css">
+
+h1, h2, h3, h4, h5, h6 {
+margin: 25px 0 25px 0;
+font-family: "Avenir",Helvetica,Arial,sans-serif;
+font-size: 16px;
+font-weight: 400;
+}
+
+
+hr {
+border: 0;
+background-color: #fff;
+border-top: 1px dashed #8c8c8c;
+width: 100%;
+}
+
+
+
+  </style>
+
+</head>
+<body>
+ <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<!-- see https://developers.google.com/chart/interactive/docs/gallery/sankey for instructions and customisation -->
+
+<!-- Chart 1 -->
+
+ <h4>Chart 1</h4>
+ <div id="sankey_0a" style="width: 1800px; height: 600px; padding: 20px 0px 100px 0px;"></div>
+
+ <script type="text/javascript">
+   google.charts.load("current", {packages:["sankey"]});
+   google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+     var data = new google.visualization.DataTable();
+     data.addColumn('string', 'From');
+     data.addColumn('string', 'To');
+     data.addColumn('number', 'Number of tx');
+     data.addRows([
+       [ 'Orders', 'Allow',	100 ],
+       [ 'Orders', 'Review',	100 ],
+       [ 'Orders', 'Prevent',	100 ],
+       // Authentication
+       [ 'Review', '3DS Success',	80 ],
+       [ 'Review', '3DS Fail',	20 ],
+       //Authorisation leg
+       [ 'Allow', 'Order Success',	70 ],
+       [ 'Allow', 'Order In Progress',	20 ],
+       [ 'Allow', 'Order Fail',	10 ],
+       [ '3DS Success', 'Order Success',	50 ],
+       [ '3DS Success', 'Order In Progress',	20 ],
+       [ '3DS Success', 'Order Fail',	10 ],
+       [ '3DS Fail', 'Order Fail',	20 ],
+       [ 'Prevent', 'Order Success',	1 ],
+       [ 'Prevent', 'Order Fail',	99 ],
+     ]);
+
+     // Set chart options
+     var options = {
+       width: 1300,
+       sankey: {
+         iterations: 32,  // affects layout. Set to 0 to control it, 32 to defautl, over for more attempts to optmise
+         node: {
+           label: {
+               fontName: 'Avenir',
+               fontSize: 13,
+               color: '#000',
+               bold: false,
+               italic: false
+                 },
+           nodePadding: 80
+          },
+         link: { color: { stroke: 'd3d3d3', strokeWidth: 1 } }
+       },
+       tooltip:  {textStyle: {fontName: 'Avenir', fontSize: 13}, showColorCode: true}
+     };
+
+     // Instantiate and draw our chart, passing in some options.
+     var chart = new google.visualization.Sankey(document.getElementById('sankey_0a'));
+     chart.draw(data, options);
+    }
+ </script>
+
+
+</body>
+</html>
